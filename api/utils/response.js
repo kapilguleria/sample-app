@@ -1,12 +1,12 @@
 const status = require("./status");
 
-exports.success = success;
-exports.failed = failed;
+exports.successAction = successAction;
+exports.failAction = failAction;
 
-function success (data, message = 'OK') {
+function successAction(data, message = 'OK') {
   return ({ statusCode: status.SUCCESS, data, message });
 }
 
-function failed (statusCode, message = 'Fail',) {
+function failAction(statusCode, message = 'Fail') {
   return ({ statusCode, data: null, message });
 }

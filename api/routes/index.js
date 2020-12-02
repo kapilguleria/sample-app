@@ -1,9 +1,11 @@
 'use strict';
 
 module.exports = function (express) {
-    var router = express.Router();
-    var userController = require('../controllers/UserController');
-    router.post('/login', userController.login);
-    router.post('/signup', userController.signup);
+    const router = express.Router();
+    const storeController = require('../controllers/storeController');
+    const orderController = require('../controllers/orderController')
+
+    router.use('/get-store', storeController.getStore);
+    router.use('/get-order', orderController.getOrder);
     return router;
 }
