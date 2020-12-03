@@ -7,7 +7,8 @@ module.exports = {
   confirm: 'Confirmed',
   success: 'Success!',
   systemError: 'Technical error! Please try again later.',
-  
-  // USER
-  emailAlreadyExists: 'Email is already registered with us.',
+  getStore: 'Store get Successfully.',
+  getStoreSummary: 'Store Summary get Successfuly.',
+  getOrders: 'Orders get Successfully.',
+  apiNotWorking: 'Api not working. Please try again.'
 };

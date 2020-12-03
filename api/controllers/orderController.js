@@ -13,7 +13,7 @@ module.exports = {
 async function getOrder(req, res) {
     try {
         const order = await getOrderData();
-        res.status(200).json(successAction(order, Message.registerSuccess));
+        res.status(200).json(successAction(order, Message.getOrders));
     } catch(error) {
         res.status(400).json(failAction(status.FAILURE, error.message));
     }

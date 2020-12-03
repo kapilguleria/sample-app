@@ -5,7 +5,8 @@ module.exports = function (express) {
     const storeController = require('../controllers/storeController');
     const orderController = require('../controllers/orderController')
 
-    router.use('/get-store', storeController.getStore);
-    router.use('/get-order', orderController.getOrder);
+    router.get('/get-store', storeController.getStore);
+    router.get('/get-store-summary', storeController.getStoreSummary);
+    router.get('/get-order', orderController.getOrder);
     return router;
 }
