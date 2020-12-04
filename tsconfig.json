@@ -12,10 +12,13 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
+    "jsx": "react",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "lib": [
       "es2018",
       "dom"
     ]
   },
-  "jsx": "react",
+  
 }
