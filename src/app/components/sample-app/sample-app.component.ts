@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from 'src/app/_services/common.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-sample-app',
@@ -15,16 +16,19 @@ export class SampleAppComponent implements OnInit {
   orderData: any;
 
   constructor(
-    private commonService: CommonService
+    private commonService: CommonService,
+    private loader: NgxUiLoaderService
   ) { }
 
   ngOnInit(): void {
+    this.loader.start();
     this.getStore();
     this.getStoreSummary()
     this.getOrder();
     let storeInterval = setInterval(() => {
       if (this.storeData && this.summaryData && this.orderData) {
         this.filtersLoaded = Promise.resolve(true);
+        this.loader.stop();
         clearInterval(storeInterval);
       }
     }, 1000);

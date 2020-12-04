@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { ToastrModule } from 'ngx-toastr';
+import { NgxUiLoaderModule } from "ngx-ui-loader";
 
 @NgModule({
   declarations: [SidebarComponent],
@@ -10,13 +12,17 @@ import {NgxPaginationModule} from 'ngx-pagination';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ToastrModule.forRoot(),
+    NgxUiLoaderModule
   ],
   exports: [
     FormsModule,
     ReactiveFormsModule,
     SidebarComponent,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ToastrModule,
+    NgxUiLoaderModule
   ]
 })
 export class SharedModule { }
