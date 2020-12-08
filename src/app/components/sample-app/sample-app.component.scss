@@ -111,3 +111,19 @@ section.dashboard-tab {
 	}
 }
 /*----End Body-Section----*/
+.tab-rt-data{
+    color:#fff;
+    float: left;
+    position: relative;
+}
+.tab-rt-data::before{
+    position:absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    background: #ffff00;    
+    padding:15px 0;
+}
