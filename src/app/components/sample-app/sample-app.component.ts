@@ -25,6 +25,7 @@ export class SampleAppComponent implements OnInit, OnChanges, AfterViewInit {
   variantCount: any;
   inventoryCount: any;
   inventoryValue: any;
+  orderTableData = [];
 
   public rootId = 'feeling-form-root';
   private hasViewLoaded = false;
@@ -61,7 +62,6 @@ export class SampleAppComponent implements OnInit, OnChanges, AfterViewInit {
         this.storeData = response.data;
         console.log(this.storeData);
         this.storeDomain = this.storeData.domain;
-        console.log("Angular ==>", this.storeDomain);
       }, error => {
         console.log(error);
       });
@@ -85,6 +85,12 @@ export class SampleAppComponent implements OnInit, OnChanges, AfterViewInit {
       .subscribe(response => {
         this.orderData = response.data;
         console.log(this.orderData);
+        if(this.orderData.length > 0) {
+          for(let order of this.orderData) {
+            let row = { orderId: order.id, billingName: order.billing_address.first_name+' '+order.billing_address.last_name, orderTotal: 25, orderStatus: order.status, actions: 'CENCELLED' };
+            this.orderTableData.push(row);
+          }
+        }
       }, err => {
         console.log(err);
       });
@@ -113,11 +119,10 @@ export class SampleAppComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   protected getProps() {
-    let { items, storeDomain, variantCount, inventoryCount, inventoryValue } = this;
-
+    let { items, storeDomain, variantCount, inventoryCount, inventoryValue, orderData, orderTableData } = this;
 
     return { 
-      items, storeDomain, variantCount, inventoryCount, inventoryValue
+      items, storeDomain, variantCount, inventoryCount, inventoryValue, orderData, orderTableData
     }
   }
 

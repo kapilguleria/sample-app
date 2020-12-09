@@ -21,13 +21,13 @@ export default class ReactTab extends React.Component<any> {
   }
 
   render() {
-    const  { items, storeDomain, variantCount, inventoryCount, inventoryValue } = this.props;
+    const  { items } = this.props;
     return (
       <>
         <Tabs activeTab={this.state['activeTab']} items={items} onTabClick={this.changeTab} />
         <Box marginTop="large">
-          {this.state['activeTab'] === 'summary' && <Text><GridSummary data ={this.props} /></Text>}
-          {this.state['activeTab'] === 'orderlist' && <Text><GridOrderList/></Text>}
+          {this.state['activeTab'] === 'summary' && <GridSummary data ={this.props} />}
+          {this.state['activeTab'] === 'orderlist' && <GridOrderList data ={this.props} />}
         </Box>
       </>
     );

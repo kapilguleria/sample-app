@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, GridItem, Box, Flex, FlexItem, H1, Text, H0, Link } from '@bigcommerce/big-design';
-import Button from '../react-components/button';
 export default class ReactGrid extends React.Component<any> {
 
     constructor(props) {
@@ -9,7 +8,6 @@ export default class ReactGrid extends React.Component<any> {
 
     render() {
         const { storeDomain, variantCount, inventoryCount, inventoryValue } = this.props.data;
-        console.log('this.props', this.props.data);
         return (
             < >
                 <Grid>
@@ -22,7 +20,7 @@ export default class ReactGrid extends React.Component<any> {
                                     <Text>A view into your default Bigcommerce storefront.</Text>
                                 </div>
                                 <div className="col-md-2" >
-                                    <Link href="storeDomain" target="_blank" external>
+                                    <Link href={storeDomain} target="_blank" external>
                                         View Storefront
                                     </Link>
                                 </div>
@@ -45,21 +43,21 @@ export default class ReactGrid extends React.Component<any> {
                             </div>
                             <div style={{ marginTop: '10px' }} className="row">
                                 <div className="col-md-4">
-                                    <Box style={{ maxWidth: '400px' }} backgroundColor="white" border="box" borderRadius="normal" padding="medium">
+                                    <Box backgroundColor="white" border="box" borderRadius="normal" padding="small">
                                         <Text bold>Variant count</Text>
-                                        <H0 ellipsis>{variantCount}</H0>
+                                        <H1>{variantCount}</H1>
                                     </Box>
                                 </div>
                                 <div className="col-md-4">
-                                    <Box style={{ maxWidth: '400px' }} backgroundColor="white" border="box" borderRadius="normal" padding="medium">
+                                    <Box backgroundColor="white" border="box" borderRadius="normal" padding="small">
                                         <Text bold>Inventory count</Text>
-                                        <H0 ellipsis>{inventoryCount}</H0>
+                                        <H1>{inventoryCount}</H1>
                                     </Box>
                                 </div>
                                 <div className="col-md-4">
-                                    <Box style={{ maxWidth: '400px' }} backgroundColor="white" border="box" borderRadius="normal" padding="medium">
+                                    <Box backgroundColor="white" border="box" borderRadius="normal" padding="small">
                                         <Text bold>Inventory value</Text>
-                                        <H0 ellipsis>${inventoryValue}</H0>
+                                        <H1>${inventoryValue}</H1>
                                     </Box>
                                 </div>
                             </div>
