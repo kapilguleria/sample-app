@@ -1,6 +1,5 @@
 import React from 'react';
 import { Tabs, Box, Text } from '@bigcommerce/big-design';
-import Button from '../react-components/button';
 import GridSummary from '../react-components/grid-summary';
 import GridOrderList from '../react-components/grid-orderlist';
 

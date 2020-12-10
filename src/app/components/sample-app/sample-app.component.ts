@@ -5,6 +5,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Button from '../react-components/button';
 import Tabs from '../react-components/tabs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sample-app',
@@ -25,7 +26,7 @@ export class SampleAppComponent implements OnInit, OnChanges, AfterViewInit {
   variantCount: any;
   inventoryCount: any;
   inventoryValue: any;
-  orderTableData = [];
+  cancelData: any;
 
   public rootId = 'feeling-form-root';
   private hasViewLoaded = false;
@@ -38,7 +39,8 @@ export class SampleAppComponent implements OnInit, OnChanges, AfterViewInit {
 
   constructor(
     private commonService: CommonService,
-    private loader: NgxUiLoaderService
+    private loader: NgxUiLoaderService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -54,6 +56,7 @@ export class SampleAppComponent implements OnInit, OnChanges, AfterViewInit {
         clearInterval(storeInterval);
       }
     }, 1000);
+    // this.cancelOrder(100);
   }
 
   getStore() {
@@ -85,16 +88,11 @@ export class SampleAppComponent implements OnInit, OnChanges, AfterViewInit {
       .subscribe(response => {
         this.orderData = response.data;
         console.log(this.orderData);
-        if(this.orderData.length > 0) {
-          for(let order of this.orderData) {
-            let row = { orderId: order.id, billingName: order.billing_address.first_name+' '+order.billing_address.last_name, orderTotal: 25, orderStatus: order.status, actions: 'CENCELLED' };
-            this.orderTableData.push(row);
-          }
-        }
       }, err => {
         console.log(err);
       });
   }
+
 
   public ngOnChanges() {
     this.renderComponent();
@@ -119,14 +117,34 @@ export class SampleAppComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   protected getProps() {
-    let { items, storeDomain, variantCount, inventoryCount, inventoryValue, orderData, orderTableData } = this;
+    let { items, storeDomain, variantCount, inventoryCount, inventoryValue, orderData, cancelOrder } = this;
 
     return { 
-      items, storeDomain, variantCount, inventoryCount, inventoryValue, orderData, orderTableData
+      items, storeDomain, variantCount, inventoryCount, inventoryValue, orderData, cancelOrder
     }
   }
 
-  onSubmit() {
-    console.log("Call Submit Function");
+  onSubmit(id: any) {
+    console.log("Call Submit Function", id);
+  }
+
+  cancelOrder(id: any) {
+    console.log("kljsdf", id);
+    debugger;
+    this.cancelData = { orderId: id };
+    console.log(this.cancelData);
+    this.commonService.cancelOrder(this.cancelData)
+      .subscribe( response => {
+        console.log(response);
+        if (response.statusCode === 200) {
+          this.renderComponent();
+          this.toastr.success(response.message);
+        }
+      }, error => {
+        console.log(error);
+        if (error.statusCode === 400) {
+          this.toastr.error(error.message);
+        }
+      });
   }
 }

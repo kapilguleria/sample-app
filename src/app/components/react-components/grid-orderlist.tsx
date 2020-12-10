@@ -1,62 +1,85 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, GridItem, Box, H1, Text, Link, Table } from '@bigcommerce/big-design';
+import { Grid, GridItem, Box, H1, Text, Link, Table, Button } from '@bigcommerce/big-design';
+
 export default class ReactGrid extends React.Component<any> {
 
     constructor(props) {
-        super(props)
-        // this.state ={
-        //     data:this.props.data,
-        //     currentPage: '1',
-        //     itemsPerPageOptions:[5, 10, 20, 30],
-        //     itemsPerPage:'5',
-        //     currentItems:'',
-        // }
+        super(props);
+        this.state = {
+            currentPage: 1,
+            itemsPerPageOptions: [5, 10, 20, 30],
+            itemsPerPage: 5
+        }
+        this.handleSubmit = this.handleSubmit.bind(this);
+    };
+
+    onItemsPerPageChange(event) {
+        this.setCurrentPage(1);
+        this.setState({
+            itemsPerPage: event
+        })
     }
 
-    // componentDidMount(){
-    //     const maxItems = this.state['currentPage'] * this.state['itemsPerPage']; 
-    //     const lastItem = Math.min(maxItems, this.state['data'].orderTableData.length);
-    //     const firstItem = Math.max(0, maxItems - this.state['itemsPerPage']);
-    //     console.log('maxItems', maxItems);
-    //     console.log('lastItem', lastItem);
-    //     console.log('firstItem', firstItem);
-    // }
+    setCurrentPage(event) {
+        this.setState({
+            currentPage: event
+        })
+    }
 
-    // onItemsPerPageChange = () => {
-    //  const  maxItems = this.state['currentPage'] * this.state['itemsPerPage']; 
-    //  console.log('maxItems', maxItems)
-    // }
-
-    // useEffect(() => {
-    //     const maxItems = currentPage * itemsPerPage;
-    //     const lastItem = Math.min(maxItems, orderTableData.length);
-    //     const firstItem = Math.max(0, maxItems - itemsPerPage);
-
-    //     setCurrentItems(orderTableData.slice(firstItem, lastItem));
-    // }, [currentPage, itemsPerPage]);
+    handleSubmit(id) {
+        const { cancelOrder } = this.props.data;
+        cancelOrder(id);
+    }
 
     render() {
-        console.log()
-        const { orderData, orderTableData } = this.props.data;
-        console.log('orderTableData====>', orderTableData);
+        const { orderData } = this.props.data;
+        let orderTableData = [];
         let totalOrder = orderData.length;
-        // const [currentPage, setCurrentPage] = useState(1);
-        // const [itemsPerPageOptions] = useState([5, 10, 20, 30]);
-        // const [itemsPerPage, setItemsPerPage] = useState(5);
-        // const [currentItems, setCurrentItems] = useState<any[]>([]);
+        const maxItems = this.state['currentPage'] * this.state['itemsPerPage'];
+        const lastItem = Math.min(maxItems, totalOrder);
+        const firstItem = Math.max(0, maxItems - this.state['itemsPerPage']);
 
-        // const onItemsPerPageChange = (newRange) => {
-        //     setCurrentPage(1);
-        //     setItemsPerPage(newRange);
-        // };
+        if (totalOrder > 0) {
+            for (let order of orderData) {
+                var status;
+                if (order.status == 'Completed') {
+                    status = 
+                        <span className={"button-completed"}>
+                            <Button>{order.status}</Button>
+                        </span>;
+                } else if (order.status == 'Cancelled') {
+                    status = 
+                        <span className={"button-cancel"}>
+                            <Button>{order.status}</Button>
+                        </span>;
+                } else {
+                    status = 
+                        <span className={"button-others"}>
+                            <Button>{order.status}</Button>
+                        </span>;
+                }
+                var action;
+                if (order.status == 'Completed' || order.status == 'Shipped') {
+                    action = "";
+                } else {
+                    action = <Button actionType="destructive" onClick={() => this.handleSubmit(order.id)}>Cancel</Button>
+                }
+
+                let row = { orderId: order.id, billingName: order.billing_address.first_name + ' ' + order.billing_address.last_name, orderTotal: order.total_inc_tax, orderStatus: status, actions: action };
+                orderTableData.push(row);
+                status = "";
+                action = "";
+            }
+        }
+
 
         return (
             <>
                 <Grid>
                     <GridItem>
-                        <Box backgroundColor="white" border="box" borderRadius="normal" padding="medium">
+                        <Box className="order-listing-container" backgroundColor="white" border="box" borderRadius="normal" padding="medium">
 
-                            <div className="row">
+                            <div style={{ paddingBottom: '5px' }} className="row">
                                 <div className="col-md-10">
                                     <H1>Orders</H1>
                                     <Text>{totalOrder} Orders</Text>
@@ -71,15 +94,15 @@ export default class ReactGrid extends React.Component<any> {
                                     { header: 'Order Status', hash: 'orderStatus', render: ({ orderStatus }) => orderStatus },
                                     { header: 'Actions', hash: 'actions', render: ({ actions }) => actions },
                                 ]}
-                                items={orderTableData}
-                                // pagination={{
-                                //     currentPage,
-                                //     totalItems: orderTableData.length,
-                                //     onPageChange: setCurrentPage,
-                                //     itemsPerPageOptions,
-                                //     onItemsPerPageChange,
-                                //     itemsPerPage,
-                                // }}
+                                items={orderTableData.slice(firstItem, lastItem)}
+                                pagination={{
+                                    currentPage: this.state['currentPage'],
+                                    totalItems: orderTableData.length,
+                                    onPageChange: ($event) => this.setCurrentPage($event),
+                                    itemsPerPageOptions: this.state['itemsPerPageOptions'],
+                                    onItemsPerPageChange: ($event) => this.onItemsPerPageChange($event),
+                                    itemsPerPage: this.state['itemsPerPage']
+                                }}
                                 stickyHeader
                             />
                         </Box>

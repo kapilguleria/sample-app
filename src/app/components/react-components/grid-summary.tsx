@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, GridItem, Box, Flex, FlexItem, H1, Text, H0, Link } from '@bigcommerce/big-design';
+import { Grid, GridItem, Box, H1, Text, Link, Button } from '@bigcommerce/big-design';
 export default class ReactGrid extends React.Component<any> {
 
     constructor(props) {
@@ -20,9 +20,9 @@ export default class ReactGrid extends React.Component<any> {
                                     <Text>A view into your default Bigcommerce storefront.</Text>
                                 </div>
                                 <div className="col-md-2" >
-                                    <Link href={storeDomain} target="_blank" external>
-                                        View Storefront
-                                    </Link>
+                                <Button variant="secondary">
+                                    <Link href={"https://"+ storeDomain} target="_blank">View Storefront</Link>
+                                </Button>
                                 </div>
                             </div>
 

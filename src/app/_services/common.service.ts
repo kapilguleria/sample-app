@@ -25,4 +25,12 @@ export class CommonService {
   getOrder(): Observable<any> {
     return this.http.get(this.apiUrl + '/get-order');
   }
+
+  cancelOrder(data: any): Observable<any> {
+    if (data) {
+      return this.http.post(this.apiUrl + '/cancel-order', data);
+    } else {
+      return new Observable((observer: Observer<any>) => observer.error('Invalid Information'));
+    }
+  }
 }

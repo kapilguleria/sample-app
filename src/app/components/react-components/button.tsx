@@ -11,7 +11,6 @@ export default class ReactButton extends React.Component<any> {
 
   handleSubmit() {
     const { onSubmit } = this.props;
-
     onSubmit();
   }
 

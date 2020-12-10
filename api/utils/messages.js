@@ -10,5 +10,6 @@ module.exports = {
   getStore: 'Store get Successfully.',
   getStoreSummary: 'Store Summary get Successfuly.',
   getOrders: 'Orders get Successfully.',
+  cancelOrder: 'Order Cancelled Successfully',
   apiNotWorking: 'Api not working. Please try again.'
 };
