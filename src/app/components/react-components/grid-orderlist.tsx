@@ -28,7 +28,7 @@ export default class ReactGrid extends React.Component<any> {
 
     handleSubmit(id) {
         const { cancelOrder } = this.props.data;
-        cancelOrder(id);
+        cancelOrder(id, this.props.data.that);
     }
 
     render() {
@@ -43,23 +43,23 @@ export default class ReactGrid extends React.Component<any> {
             for (let order of orderData) {
                 var status;
                 if (order.status == 'Completed') {
-                    status = 
+                    status =
                         <span className={"button-completed"}>
                             <Button>{order.status}</Button>
                         </span>;
                 } else if (order.status == 'Cancelled') {
-                    status = 
+                    status =
                         <span className={"button-cancel"}>
                             <Button>{order.status}</Button>
                         </span>;
                 } else {
-                    status = 
+                    status =
                         <span className={"button-others"}>
                             <Button>{order.status}</Button>
                         </span>;
                 }
                 var action;
-                if (order.status == 'Completed' || order.status == 'Shipped') {
+                if (order.status == 'Completed' || order.status == 'Shipped' || order.status == 'Cancelled') {
                     action = "";
                 } else {
                     action = <Button actionType="destructive" onClick={() => this.handleSubmit(order.id)}>Cancel</Button>
@@ -77,35 +77,39 @@ export default class ReactGrid extends React.Component<any> {
             <>
                 <Grid>
                     <GridItem>
+                        <div className="col-float">                        
                         <Box className="order-listing-container" backgroundColor="white" border="box" borderRadius="normal" padding="medium">
 
-                            <div style={{ paddingBottom: '5px' }} className="row">
-                                <div className="col-md-10">
-                                    <H1>Orders</H1>
-                                    <Text>{totalOrder} Orders</Text>
-                                </div>
+                            <div className="col-sm-6 bg-none">
+                                <span className="custom-hdspc"><H1>Orders</H1></span>
+                                <Text>{totalOrder} Orders</Text>
                             </div>
 
-                            <Table
-                                columns={[
-                                    { header: 'Order ID', hash: 'orderId', render: ({ orderId }) => orderId },
-                                    { header: 'Billing Name', hash: 'billingName', render: ({ billingName }) => billingName },
-                                    { header: 'Order Total', hash: 'orderTotal', render: ({ orderTotal }) => orderTotal },
-                                    { header: 'Order Status', hash: 'orderStatus', render: ({ orderStatus }) => orderStatus },
-                                    { header: 'Actions', hash: 'actions', render: ({ actions }) => actions },
-                                ]}
-                                items={orderTableData.slice(firstItem, lastItem)}
-                                pagination={{
-                                    currentPage: this.state['currentPage'],
-                                    totalItems: orderTableData.length,
-                                    onPageChange: ($event) => this.setCurrentPage($event),
-                                    itemsPerPageOptions: this.state['itemsPerPageOptions'],
-                                    onItemsPerPageChange: ($event) => this.onItemsPerPageChange($event),
-                                    itemsPerPage: this.state['itemsPerPage']
-                                }}
-                                stickyHeader
-                            />
+                            <div className="order-table-pro">
+                               <div className="tb-responsive">
+                                <Table
+                                    columns={[
+                                        { header: 'Order ID', hash: 'orderId', render: ({ orderId }) => orderId },
+                                        { header: 'Billing Name', hash: 'billingName', render: ({ billingName }) => billingName },
+                                        { header: 'Order Total', hash: 'orderTotal', render: ({ orderTotal }) => orderTotal },
+                                        { header: 'Order Status', hash: 'orderStatus', render: ({ orderStatus }) => orderStatus },
+                                        { header: 'Actions', hash: 'actions', render: ({ actions }) => actions },
+                                    ]}
+                                    items={orderTableData.slice(firstItem, lastItem)}
+                                    pagination={{
+                                        currentPage: this.state['currentPage'],
+                                        totalItems: orderTableData.length,
+                                        onPageChange: ($event) => this.setCurrentPage($event),
+                                        itemsPerPageOptions: this.state['itemsPerPageOptions'],
+                                        onItemsPerPageChange: ($event) => this.onItemsPerPageChange($event),
+                                        itemsPerPage: this.state['itemsPerPage']
+                                    }}
+                                    stickyHeader
+                                />
+                                </div>
+                            </div>
                         </Box>
+                        </div>
                     </GridItem>
                 </Grid>
             </>

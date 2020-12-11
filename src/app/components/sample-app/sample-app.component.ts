@@ -3,7 +3,6 @@ import { CommonService } from 'src/app/_services/common.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Button from '../react-components/button';
 import Tabs from '../react-components/tabs';
 import { ToastrService } from 'ngx-toastr';
 
@@ -50,13 +49,12 @@ export class SampleAppComponent implements OnInit, OnChanges, AfterViewInit {
     this.getStoreSummary()
     this.getOrder();
     let storeInterval = setInterval(() => {
-      if (this.storeData && this.summaryData && this.orderData) {
+      if (this.storeData && this.summaryData) {
         this.filtersLoaded = Promise.resolve(true);
         this.loader.stop();
         clearInterval(storeInterval);
       }
     }, 1000);
-    // this.cancelOrder(100);
   }
 
   getStore() {
@@ -117,10 +115,10 @@ export class SampleAppComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   protected getProps() {
-    let { items, storeDomain, variantCount, inventoryCount, inventoryValue, orderData, cancelOrder } = this;
+    let { items, storeDomain, variantCount, inventoryCount, inventoryValue, orderData, cancelOrder, that } = this;
 
     return { 
-      items, storeDomain, variantCount, inventoryCount, inventoryValue, orderData, cancelOrder
+      items, storeDomain, variantCount, inventoryCount, inventoryValue, orderData, cancelOrder, that
     }
   }
 
@@ -128,22 +126,23 @@ export class SampleAppComponent implements OnInit, OnChanges, AfterViewInit {
     console.log("Call Submit Function", id);
   }
 
-  cancelOrder(id: any) {
-    console.log("kljsdf", id);
-    debugger;
-    this.cancelData = { orderId: id };
-    console.log(this.cancelData);
-    this.commonService.cancelOrder(this.cancelData)
+  cancelOrder(id: any, that: any) {
+    that.loader.start();
+    that.cancelData = { orderId: id };
+    that.commonService.cancelOrder(that.cancelData)
       .subscribe( response => {
+        that.loader.stop();
         console.log(response);
         if (response.statusCode === 200) {
-          this.renderComponent();
-          this.toastr.success(response.message);
+          that.getOrder();
+          that.renderComponent();
+          that.toastr.success(response.message);
         }
       }, error => {
+        that.loader.stop();
         console.log(error);
         if (error.statusCode === 400) {
-          this.toastr.error(error.message);
+          that.toastr.error(error.message);
         }
       });
   }

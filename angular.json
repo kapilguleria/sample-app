@@ -35,6 +35,17 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "react",
+              "react-dom",
+              "react-is",
+              "hoist-non-react-statics",
+              "focus-trap",
+              "react-datepicker",
+              "deep-equal",
+              "create-react-context",
+              "@babel/runtime/regenerator"
             ]
           },
           "configurations": {
