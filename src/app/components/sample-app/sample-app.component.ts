@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, Inject } from '@angular/core';
 import { CommonService } from 'src/app/_services/common.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import * as React from 'react';
@@ -37,6 +37,7 @@ export class SampleAppComponent implements OnInit, OnChanges, AfterViewInit {
   that;
 
   constructor(
+    @Inject(CommonService)
     private commonService: CommonService,
     private loader: NgxUiLoaderService,
     private toastr: ToastrService
